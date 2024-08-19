@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
+"""Simple pagination sample.
 """
-Module to calculate the range of indexes for pagination and to paginate a
-dataset of popular baby names.
-"""
-
 import csv
-import math
 from typing import List, Tuple
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
-    start_index = (page - 1) * page_size
-    end_index = page * page_size
-    return start_index, end_index
+    """Retrieves the index range from a given page and page size.
+    """
+    start = (page - 1) * page_size
+    end = start + page_size
+    return (start, end)
 
 
 class Server:
@@ -21,6 +19,8 @@ class Server:
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
+        """Initializes a new Server instance.
+        """
         self.__dataset = None
 
     def dataset(self) -> List[List]:
@@ -35,24 +35,12 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
+        """Retrieves a page of data.
         """
-        Retrieve a specific page from the dataset.
-
-        Args:
-            page (int): The page number (1-indexed), default is 1.
-            page_size (int): The number of items per page, default is 10.
-
-        Returns:
-            List[List]: A list of rows corresponding to the given page.
-            Returns an empty list if the page is out of range.
-        """
-        assert isinstance(page, int) and page > 0
-        assert isinstance(page_size, int) and page_size > 0
-
-        start_index, end_index = index_range(page, page_size)
-        dataset = self.dataset()
-
-        if start_index >= len(dataset):
+        assert type(page) == int and type(page_size) == int
+        assert page > 0 and page_size > 0
+        start, end = index_range(page, page_size)
+        data = self.dataset()
+        if start > len(data):
             return []
-
-        return dataset[start_index:end_index]
+        return data[start:end]
