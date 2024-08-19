@@ -5,7 +5,7 @@ dataset of popular baby names.
 """
 
 import csv
-import math  # Keeping the math import for future use
+import math
 from typing import List, Tuple
 
 
@@ -24,6 +24,13 @@ class Server:
         self.__dataset = None
 
     def dataset(self) -> List[List]:
+        """
+        Load and cache the dataset if not already loaded.
+
+        Returns:
+            List[List]: The dataset loaded from the CSV file, excluding the
+            header.
+        """
         if self.__dataset is None:
             with open(self.DATA_FILE) as f:
                 reader = csv.reader(f)
@@ -33,6 +40,17 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
+        """
+        Retrieve a specific page from the dataset.
+
+        Args:
+            page (int): The page number (1-indexed), default is 1.
+            page_size (int): The number of items per page, default is 10.
+
+        Returns:
+            List[List]: A list of rows corresponding to the given page.
+            Returns an empty list if the page is out of range.
+        """
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
 
