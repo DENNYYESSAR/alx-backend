@@ -24,12 +24,7 @@ class Server:
         self.__dataset = None
 
     def dataset(self) -> List[List]:
-        """
-        Load and cache the dataset if not already loaded.
-
-        Returns:
-            List[List]: The dataset loaded from the CSV file, excluding the
-            header.
+        """Cached dataset
         """
         if self.__dataset is None:
             with open(self.DATA_FILE) as f:
